@@ -159,7 +159,7 @@ Each project folder contains:
 I’m sharing daily progress, lessons, and mistakes on Twitter (X).
 
 **Follow along:**  
- https://twitter.com/yourhandle
+ https://twitter.com/shad921z
 
 ---
 
