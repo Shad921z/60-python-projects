@@ -1,0 +1,62 @@
+<html>
+
+<head>
+    <title>URL Shortener</title>
+</head>
+
+<body>
+    <h1>URL Shortener</h1>
+    <form method="POST" action="{{ url_for('index') }}">
+        <input type="text" name="long_url" placeholder="Enter long URL">
+        <br>
+        <br>
+        <button type="submit">Shorten</button>
+        <div class="container">
+            {% if short_url %}
+            <p>Shortened URL: <a href="{{ url_for('redirect_url', short_url=short_url) }}">{{ url_for('redirect_url',
+                    short_url=short_url) }}</a></p>
+            {% endif %}
+        </div>
+    </form>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</body>
+
+</html>
