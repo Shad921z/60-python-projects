@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors | Retro Arcade</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hangman.css') }}">
+</head>
+
+<body>
+
+    <div class="game-container">
+        <h1>Rock Paper Scissors</h1>
+
+        <div class="status">
+            Guesses Remaining: <strong>{{ guesses }}</strong>
+        </div>
+
+        <div class="word-display">
+            {% for letter in hidden_word %}
+            {{ letter }}
+            {% endfor %}
+        </div>
+
+        <div class="message">
+            {{ message }}
+        </div>
+
+        {% if game_over %}
+        <div class="result">
+            {% if win %}
+            <p class="win-msg">🎉 You Won! 🎉</p>
+            {% else %}
+            <p class="lose-msg">💀 You Lost! 💀</p>
+            {% endif %}
+            <a href="/rps?reset=true"><button>Play Again</button></a>
+        </div>
+        {% else %}
+        <form method="POST" class="input-area">
+            <input type="text" name="choice" maxlength="1" required autofocus autocomplete="off" placeholder="?">
+            <button type="submit">Guess</button>
+        </form>
+        {% endif %}
+
+        <a href="/" class="back-btn">← Back to Arcade</a>
+    </div>
+
+</body>
+
+</html>

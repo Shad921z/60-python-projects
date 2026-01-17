@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Arcade</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>Retro Arcade</h1>
+        <p class="subtitle">Choose your game and start playing!</p>
+    </header>
+
+    <div class="container">
+        <a href="/hangman" class="card">
+            <div class="icon">🤔</div>
+            <h2>Hangman</h2>
+            <p>Guess the word before it's too late</p>
+        </a>
+
+        <a href="/dice" class="card">
+            <div class="icon">🎲</div>
+            <h2>Dice Roller</h2>
+            <p>Roll the dice and test your luck</p>
+        </a>
+
+        <a href="/rps" class="card">
+            <div class="icon">✂️</div>
+            <h2>Rock Paper Scissors</h2>
+            <p>Classic battle of wits</p>
+        </a>
+    </div>
+
+</body>
+
+</html>
