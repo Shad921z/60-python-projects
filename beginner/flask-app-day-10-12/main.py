@@ -75,16 +75,45 @@ def hangman():
 
 @app.route('/dice')
 def dice():
-    # Simple logic to demonstrate python function
-    die1 = random.randint(1, 6)
-    return f"<h1>Dice Roller</h1><p>You rolled a {die1}!</p><a href='/'>Back</a> <a href='/dice'>Roll Again</a>"
+    # Dice logic
+    roll_value = random.randint(1, 6)
+    dice_icons = {
+        1: '⚀',
+        2: '⚁',
+        3: '⚂',
+        4: '⚃',
+        5: '⚄',
+        6: '⚅'
+    }
+    dice_icon = dice_icons[roll_value]
+     
+    return render_template('dice.html', roll_value=roll_value, dice_icon=dice_icon)
 
 #==================== ROCK PAPER SCISSORS GAME ====================
 
-@app.route('/rps')
+@app.route('/rps', methods=['GET', 'POST'])
 def rps():
-    return "<h1>Rock Paper Scissors</h1><p>Assume you won!</p><a href='/'>Back</a>"
-
+    if request.method == 'POST':
+        player_choice = request.form.get('choice')
+        options = ['rock', 'paper', 'scissors']
+        computer_choice = random.choice(options)
+        
+        result = None
+        if player_choice == computer_choice:
+            result = 'tie'
+        elif (player_choice == 'rock' and computer_choice == 'scissors') or \
+             (player_choice == 'paper' and computer_choice == 'rock') or \
+             (player_choice == 'scissors' and computer_choice == 'paper'):
+            result = 'win'
+        else:
+            result = 'lose'
+            
+        return render_template('rock-paper-scissors.html', 
+                               player_choice=player_choice,
+                               computer_choice=computer_choice,
+                               result=result)
+                               
+    return render_template('rock-paper-scissors.html', result=None)
 
 
 

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roller | Retro Arcade</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/hangman.css') }}">
+    <style>
+        .dice-display {
+            font-size: 8rem;
+            margin: 2rem 0;
+            user-select: none;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <h1>Dice Roller</h1>
+
+        <div class="dice-display">
+            {{ dice_icon }}
+        </div>
+
+        <div class="message">
+            You rolled a {{ roll_value }}!
+        </div>
+
+        <div class="controls">
+            <a href="/dice"><button>Roll Again</button></a>
+        </div>
+
+        <a href="/" class="back-btn">← Back to Arcade</a>
+    </div>
+</body>
+
+</html>

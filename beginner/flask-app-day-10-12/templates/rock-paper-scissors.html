@@ -6,46 +6,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors | Retro Arcade</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/hangman.css') }}">
+    <style>
+        .choices {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .choice-btn {
+            font-size: 3rem;
+            padding: 1.5rem;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .choice-btn:hover {
+            transform: scale(1.1);
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .result-display {
+            font-size: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .vs {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin: 0 1rem;
+        }
+    </style>
 </head>
 
 <body>
-
     <div class="game-container">
         <h1>Rock Paper Scissors</h1>
 
-        <div class="status">
-            Guesses Remaining: <strong>{{ guesses }}</strong>
+        {% if result %}
+        <div class="result-display">
+            <div class="outcome">
+                {% if result == 'win' %}
+                <p class="win-msg">🎉 You Won! 🎉</p>
+                {% elif result == 'lose' %}
+                <p class="lose-msg">💀 You Lost! 💀</p>
+                {% else %}
+                <p style="color: #fbbf24; font-weight: bold; font-size: 1.5rem;">🤝 It's a Tie! 🤝</p>
+                {% endif %}
+            </div>
+
+            <p>
+                You chose <strong>{{ player_choice|title }}</strong>
+                <span class="vs">vs</span>
+                Computer chose <strong>{{ computer_choice|title }}</strong>
+            </p>
         </div>
 
-        <div class="word-display">
-            {% for letter in hidden_word %}
-            {{ letter }}
-            {% endfor %}
-        </div>
-
-        <div class="message">
-            {{ message }}
-        </div>
-
-        {% if game_over %}
-        <div class="result">
-            {% if win %}
-            <p class="win-msg">🎉 You Won! 🎉</p>
-            {% else %}
-            <p class="lose-msg">💀 You Lost! 💀</p>
-            {% endif %}
-            <a href="/rps?reset=true"><button>Play Again</button></a>
-        </div>
+        <a href="/rps"><button>Play Again</button></a>
         {% else %}
-        <form method="POST" class="input-area">
-            <input type="text" name="choice" maxlength="1" required autofocus autocomplete="off" placeholder="?">
-            <button type="submit">Guess</button>
+        <p class="message">Choose your weapon!</p>
+
+        <form method="POST" class="choices">
+            <button type="submit" name="choice" value="rock" class="choice-btn" title="Rock">🪨</button>
+            <button type="submit" name="choice" value="paper" class="choice-btn" title="Paper">📄</button>
+            <button type="submit" name="choice" value="scissors" class="choice-btn" title="Scissors">✂️</button>
         </form>
         {% endif %}
 
         <a href="/" class="back-btn">← Back to Arcade</a>
     </div>
-
 </body>
 
 </html>
