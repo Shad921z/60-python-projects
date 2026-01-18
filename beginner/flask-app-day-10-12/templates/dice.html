@@ -4,37 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dice Roller | Retro Arcade</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/hangman.css') }}">
-    <style>
-        .dice-display {
-            font-size: 8rem;
-            margin: 2rem 0;
-            user-select: none;
-        }
-
-        .controls {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-        }
-    </style>
+    <title>Dice Battle | Retro Arcade</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dice.css') }}">
 </head>
 
 <body>
     <div class="game-container">
-        <h1>Dice Roller</h1>
+        <h1>Dice Battle</h1>
 
-        <div class="dice-display">
-            {{ dice_icon }}
+        <div class="scoreboard">
+            <div class="score-item win">
+                <span class="label">Wins</span>
+                <span class="value">{{ wins }}</span>
+            </div>
+            <div class="score-item tie">
+                <span class="label">Ties</span>
+                <span class="value">{{ ties }}</span>
+            </div>
+            <div class="score-item lose">
+                <span class="label">Losses</span>
+                <span class="value">{{ losses }}</span>
+            </div>
         </div>
 
-        <div class="message">
-            You rolled a {{ roll_value }}!
+        <div class="battle-arena">
+            {% if outcome %}
+            <div class="dice-wrapper player-dice">
+                <h3>You</h3>
+                <div class="dice-icon">{{ outcome.player_icon }}</div>
+                <div class="dice-value">{{ outcome.player_roll }}</div>
+            </div>
+
+            <div class="vs-badge">VS</div>
+
+            <div class="dice-wrapper cpu-dice">
+                <h3>CPU</h3>
+                <div class="dice-icon">{{ outcome.cpu_icon }}</div>
+                <div class="dice-value">{{ outcome.cpu_roll }}</div>
+            </div>
+            {% else %}
+            <div class="waiting-message">
+                <div class="dice-placeholder">🎲</div>
+                <p>Press Roll to Start!</p>
+            </div>
+            {% endif %}
         </div>
+
+        {% if outcome %}
+        <div class="result-message {{ outcome.class }}">
+            {{ outcome.message }}
+        </div>
+        {% endif %}
 
         <div class="controls">
-            <a href="/dice"><button>Roll Again</button></a>
+            <form action="/dice" method="POST">
+                <button type="submit" class="roll-btn">Roll Dice</button>
+            </form>
         </div>
 
         <a href="/" class="back-btn">← Back to Arcade</a>

@@ -1,0 +1,173 @@
+/* Dice Battle Styles */
+
+.game-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+}
+
+/* Scoreboard */
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.score-item {
+    background: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+    border-top: 5px solid #ccc;
+}
+
+.score-item.win { border-top-color: #2ecc71; }
+.score-item.tie { border-top-color: #f1c40f; }
+.score-item.lose { border-top-color: #e74c3c; }
+
+.score-item .label {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #7f8c8d;
+    font-weight: bold;
+}
+
+.score-item .value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Battle Arena */
+.battle-arena {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    margin: 2rem 0;
+    min-height: 200px;
+}
+
+.dice-wrapper {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    width: 200px;
+    transition: transform 0.2s;
+}
+
+.dice-wrapper:hover {
+    transform: translateY(-5px);
+}
+
+.dice-wrapper h3 {
+    margin: 0 0 1rem 0;
+    color: #7f8c8d;
+    font-size: 1.2rem;
+}
+
+.dice-icon {
+    font-size: 8rem;
+    line-height: 1;
+    color: #34495e;
+}
+
+.player-dice .dice-icon { color: #3498db; }
+.cpu-dice .dice-icon { color: #e74c3c; }
+
+.dice-value {
+    font-size: 1.5rem;
+    color: #95a5a6;
+    margin-top: 1rem;
+}
+
+.vs-badge {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #bdc3c7;
+    font-style: italic;
+}
+
+.dice-placeholder {
+    font-size: 8rem;
+    color: #ecf0f1;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Results */
+.result-message {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 2rem 0;
+    padding: 1rem;
+    border-radius: 10px;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.result-message.win { color: #2ecc71; background: rgba(46, 204, 113, 0.1); }
+.result-message.lose { color: #e74c3c; background: rgba(231, 76, 60, 0.1); }
+.result-message.tie { color: #f1c40f; background: rgba(241, 196, 15, 0.1); }
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Controls */
+.controls button {
+    background: #34495e;
+    color: white;
+    border: none;
+    padding: 1rem 4rem;
+    font-size: 1.5rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 #2c3e50;
+}
+
+.controls button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #2c3e50;
+    background: #2c3e50;
+}
+
+.controls button:active {
+    transform: translateY(2px);
+    box-shadow: 0 0 0 #2c3e50;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 3rem;
+    text-decoration: none;
+    color: #7f8c8d;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.back-btn:hover {
+    color: #34495e;
+}

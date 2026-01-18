@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guess | Retro Arcade</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dice.css') }}">
+    <style>
+        /* Reusing dice.css for general layout, adding specific overrides */
+        .guess-input {
+            font-size: 2rem;
+            padding: 0.5rem;
+            width: 150px;
+            text-align: center;
+            border: 3px solid #34495e;
+            border-radius: 10px;
+            margin: 2rem 0;
+            color: #2c3e50;
+        }
+
+        .guess-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .status-badge {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            background: #ecf0f1;
+            color: #7f8c8d;
+        }
+
+        .message-box {
+            font-size: 1.5rem;
+            min-height: 3rem;
+            margin: 1rem 0;
+            font-weight: bold;
+        }
+
+        .message-box.info {
+            color: #34495e;
+        }
+
+        .message-box.success {
+            color: #2ecc71;
+        }
+
+        .message-box.warning {
+            color: #e67e22;
+        }
+
+        .message-box.error {
+            color: #e74c3c;
+        }
+
+        .attempts {
+            margin-top: 2rem;
+            font-size: 1rem;
+            color: #95a5a6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="game-container">
+        <h1>Number Guess</h1>
+
+        <div class="status-badge">Target: 1 - 100</div>
+
+        <div class="message-box {{ status }}">
+            {{ message }}
+        </div>
+
+        {% if not game_won %}
+        <form action="/guess" method="POST">
+            <input type="number" name="guess" class="guess-input" min="1" max="100" autofocus required
+                autocomplete="off">
+            <div class="controls">
+                <button type="submit">Guess</button>
+            </div>
+        </form>
+        {% else %}
+        <div class="controls">
+            <a href="/guess?reset=true"><button class="roll-btn" style="background-color: #27ae60;">Play
+                    Again</button></a>
+        </div>
+        {% endif %}
+
+        <div class="attempts">
+            Attempts: <strong>{{ attempts }}</strong>
+        </div>
+
+        <a href="/" class="back-btn">← Back to Arcade</a>
+    </div>
+
+    <script>
+        // Auto-select input on load
+        document.querySelector('.guess-input')?.focus();
+    </script>
+</body>
+
+</html>

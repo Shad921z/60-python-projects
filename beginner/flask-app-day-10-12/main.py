@@ -73,21 +73,60 @@ def hangman():
 
 #==================== DICE ROLLER GAME ====================
 
-@app.route('/dice')
+@app.route('/dice', methods=['GET', 'POST'])
 def dice():
-    # Dice logic
-    roll_value = random.randint(1, 6)
-    dice_icons = {
-        1: '⚀',
-        2: '⚁',
-        3: '⚂',
-        4: '⚃',
-        5: '⚄',
-        6: '⚅'
-    }
-    dice_icon = dice_icons[roll_value]
+    # Initialize scores if not present
+    if 'dice_wins' not in session:
+        session['dice_wins'] = 0
+    if 'dice_losses' not in session:
+        session['dice_losses'] = 0
+    if 'dice_ties' not in session:
+        session['dice_ties'] = 0
+
+    outcome = None
+    
+    if request.method == 'POST':
+        # Game Logic
+        player_roll = random.randint(1, 6)
+        cpu_roll = random.randint(1, 6)
+        
+        dice_icons = {
+            1: '⚀', 2: '⚁', 3: '⚂', 4: '⚃', 5: '⚄', 6: '⚅'
+        }
+        
+        player_icon = dice_icons[player_roll]
+        cpu_icon = dice_icons[cpu_roll]
+        
+        result_message = ""
+        result_class = ""
+        
+        if player_roll > cpu_roll:
+            result_message = "You Win!"
+            result_class = "win"
+            session['dice_wins'] += 1
+        elif cpu_roll > player_roll:
+            result_message = "Computer Wins!"
+            result_class = "lose"
+            session['dice_losses'] += 1
+        else:
+            result_message = "It's a Tie!"
+            result_class = "tie"
+            session['dice_ties'] += 1
+            
+        outcome = {
+            'player_roll': player_roll,
+            'player_icon': player_icon,
+            'cpu_roll': cpu_roll,
+            'cpu_icon': cpu_icon,
+            'message': result_message,
+            'class': result_class
+        }
      
-    return render_template('dice.html', roll_value=roll_value, dice_icon=dice_icon)
+    return render_template('dice.html', 
+                           outcome=outcome,
+                           wins=session['dice_wins'],
+                           losses=session['dice_losses'],
+                           ties=session['dice_ties'])
 
 #==================== ROCK PAPER SCISSORS GAME ====================
 
@@ -115,7 +154,46 @@ def rps():
                                
     return render_template('rock-paper-scissors.html', result=None)
 
+#=================== NUMBER GUESSING GAME ==================
 
+@app.route('/guess', methods=['GET', 'POST'])
+def guess_number():
+    if 'target_num' not in session or request.args.get('reset'):
+        session['target_num'] = random.randint(1, 100)
+        session['attempts'] = 0
+        session['guess_message'] = "Guess a number between 1 and 100!"
+        session['guess_status'] = "info" # info, success, warning, error
+        session['game_won'] = False
+        
+        if request.args.get('reset'):
+            return redirect(url_for('guess_number'))
+
+    if request.method == 'POST':
+        try:
+            user_guess = int(request.form.get('guess'))
+            session['attempts'] += 1
+            target = session['target_num']
+            
+            if user_guess == target:
+                session['guess_message'] = f"CORRECT! The number was {target}."
+                session['guess_status'] = "success"
+                session['game_won'] = True
+            elif user_guess > target:
+                session['guess_message'] = f"Too High! Try lower than {user_guess}."
+                session['guess_status'] = "warning"
+            else:
+                session['guess_message'] = f"Too Low! Try higher than {user_guess}."
+                session['guess_status'] = "warning"
+                
+        except ValueError:
+            session['guess_message'] = "Please enter a valid number."
+            session['guess_status'] = "error"
+
+    return render_template('guess.html', 
+                           message=session.get('guess_message'),
+                           status=session.get('guess_status'),
+                           attempts=session.get('attempts'),
+                           game_won=session.get('game_won'))
 
 if __name__ == '__main__':
     app.run(debug=True)
