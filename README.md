@@ -146,7 +146,7 @@ Each project folder contains:
 ---
 
 ##  Progress Tracking
-- [ ] Day 1–10
+- [✅] Day 1–10
 - [ ] Day 11–20
 - [ ] Day 21–30
 - [ ] Day 31–40
